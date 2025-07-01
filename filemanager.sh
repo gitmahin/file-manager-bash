@@ -88,7 +88,7 @@ EOF
                 "$(
                 cat << EOF
 1. Given file name: $file_name
-2. Output file name: $output_file_name
+2. Output file name: ${output_file_name:-"DEFAULT"}
 3. Number of files creation: $number_of_command
 EOF
                 )"
