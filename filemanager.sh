@@ -109,7 +109,7 @@ EOF
 
                 copyNCreateFiles "$file_name" "$output_file_name" "$number_of_command"
                 
-                # [[ $? == 1 ]] && exit 1
+                [[ $? == 1 ]] && exit 1
                 ;;
             "2")
                
