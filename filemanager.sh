@@ -69,14 +69,14 @@ case $(echo "$option" | xargs) in
 EOF
         )"
         read -p "Choose - [1/2]: " option
-        file_name=""
-        output_file_name=""
+        
         number_of_command=1
+        numbering_position="r"
         case $(echo "$option" | xargs) in
             "1")
                 # get core values 
                 read -p "Enter the file name (include file ext): " file_name 
-                read -p "How many files you want to create. (Should be positive integer): " number_of_command
+                read -p "How many files do you want to create? (Should be positive integer): " number_of_command
 
                 # asking
                 read -p "Want to modify default settings? - [y/n]: " option
@@ -99,6 +99,7 @@ EOF
                 copyNCreateFiles "$file_name" "$output_file_name" "$number_of_command"
                 ;;
             "2")
+               
                 ;;
             *)
                 ;;
@@ -107,7 +108,15 @@ EOF
 
         ;;
     "2")
+        # 2. Create folders in bulk serially
+        # get core values
         terminalMessage select "Create folders in bulk serially"
+        
+        read -p "Enter the folder name:" folder_name
+        read -p "How many folders do you want to create?. (Should be positive integer): " number_of_command
+        read -p "Set the numbering position: [L/R]" numbering_position
+
+        copyNCreateFolders "$folder_name" "$number_of_command" "$numbering_position"
         ;;
     "3")
         terminalMessage select "Create folders in bulk serially"
