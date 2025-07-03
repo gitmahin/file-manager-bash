@@ -68,7 +68,9 @@ read -p "Choose a task - [1/2/3]: " option
 
 case $(echo "$option" | xargs) in
     "1")
+        # selected message
         terminalMessage select "Create files in bulk serially"
+        # choose options
         optionsListMessage "Select which task to perform" \
         ""\
         "$(cat << EOF 
@@ -88,9 +90,9 @@ EOF
 
                 # asking
                 read -p "Want to modify default settings? - [y/n]: " option
-                [[ "$option" = "y" ]] && read -p "Output file name: " output_file_name 
+                [[ "$option" == "y" ]] && read -p "Output file name: " output_file_name 
 
-                # message
+                # user commands
                 optionsListMessage "Your Command:" \
                 "" \
                 "$(
@@ -104,7 +106,10 @@ EOF
                 # asking
                 read -p "Continue? - [y/n]: " option
                 [[ "$option" != "y" ]] && exit 1
+
                 copyNCreateFiles "$file_name" "$output_file_name" "$number_of_command"
+                
+                # [[ $? == 1 ]] && exit 1
                 ;;
             "2")
                
@@ -116,13 +121,28 @@ EOF
 
         ;;
     "2")
-        # 2. Create folders in bulk serially
-        # get core values
+        # selected message
         terminalMessage select "Create folders in bulk serially"
 
+        # get core values
         read -p "Enter the folder name:" folder_name
         read -p "How many folders do you want to create?. (Should be positive integer): " number_of_command
         read -p "Set the numbering position: [L/R]" numbering_position
+
+                        # message
+                optionsListMessage "Your Command:" \
+                "" \
+                "$(
+                cat << EOF
+1. Given file name: $file_name
+2. Output file name: ${output_file_name:-"DEFAULT"}
+3. Number of files creation: $number_of_command
+EOF
+                )"
+
+        # asking
+        read -p "Continue? - [y/n]: " option
+        [[ "$option" != "y" ]] && exit 1
 
         copyNCreateFolders "$folder_name" "$number_of_command" "$numbering_position"
 
