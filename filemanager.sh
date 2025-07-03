@@ -5,6 +5,14 @@
 # can zip unzip files and folders
 
 source "./lib.sh"
+
+documents_path=$(xdg-user-dir DOCUMENTS 2>/dev/null)
+
+[[ ! -d  "$documents_path" ]] && documents_path="$HOME/Documents"
+
+mkdir -p "$documents_path/filemanager"
+echo "Initialized filemanager path for $documents_path"
+
 option=""
 
 terminalMessage(){
@@ -111,12 +119,14 @@ EOF
         # 2. Create folders in bulk serially
         # get core values
         terminalMessage select "Create folders in bulk serially"
-        
+
         read -p "Enter the folder name:" folder_name
         read -p "How many folders do you want to create?. (Should be positive integer): " number_of_command
         read -p "Set the numbering position: [L/R]" numbering_position
 
         copyNCreateFolders "$folder_name" "$number_of_command" "$numbering_position"
+
+        [[ $? == 1 ]] && exit 1
         ;;
     "3")
         terminalMessage select "Create folders in bulk serially"

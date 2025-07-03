@@ -38,14 +38,14 @@ copyNCreateFolders() {
         if [[ "$numbering_position" == [lL] ]]; then
             left_nposition_file="$((($i+1)))-$folder_name"
             mkdir "$left_nposition_file"
-            [[ ! -d "$left_nposition_file" ]] && echo "Failed to create - $left_nposition_file"; return 1
-        fi
+            [[ ! -d "$left_nposition_file" ]] && { echo "Failed to create - $left_nposition_file"; return 1; }
 
-        if [[ "$numbering_position" == [rR] ]]; then
+        else
             right_nposition_file="$folder_name-$((($i+1)))"
             mkdir "$right_nposition_file"
-               [[ ! -d "$right_nposition_file" ]] && echo "Failed to create - $right_nposition_file"; return 1
+            [[ ! -d "$right_nposition_file" ]] && { echo "Failed to create - $right_nposition_file"; return 1; }
         fi
+
     done
     return 0
 }
