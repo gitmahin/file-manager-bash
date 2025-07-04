@@ -1,3 +1,5 @@
+# !/bin/bash
+
 input_test_files=$1
 
 # making --filter-tags if filters

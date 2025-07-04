@@ -1,9 +1,5 @@
 # !/bin/bash
 
-# can create bulk serial files and folders 1, 2, 3
-# can create multiple files and folders
-# can zip unzip files and folders
-
 source "./lib.sh"
 source "./utils.sh"
 
