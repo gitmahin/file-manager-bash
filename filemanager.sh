@@ -90,7 +90,7 @@ EOF
 
                 # asking
                 read -p "Want to modify default settings? - [y/n]: " option
-                [[ "$option" == "y" ]] && read -p "Output file name: " output_file_name 
+                [[ "${option:-"n"}" == "y" ]] && read -p "Output file name: " output_file_name 
 
                 # user commands
                 optionsListMessage "Your Command:" \
@@ -105,7 +105,7 @@ EOF
 
                 # asking
                 read -p "Continue? - [y/n]: " option
-                [[ "$option" != "y" ]] && exit 1
+                [[ "${option:-"y"}" != "y" ]] && exit 1
 
                 copyNCreateFiles "$file_name" "$output_file_name" "$number_of_command"
                 
@@ -134,17 +134,17 @@ EOF
                 "" \
                 "$(
                 cat << EOF
-1. Given file name: $file_name
-2. Output file name: ${output_file_name:-"DEFAULT"}
-3. Number of files creation: $number_of_command
+1. Given folder name: $folder_name
+2. Numbering position:" $numbering_position
+3. Number of folder creation: $number_of_command
 EOF
                 )"
 
         # asking
         read -p "Continue? - [y/n]: " option
-        [[ "$option" != "y" ]] && exit 1
+        [[ "${option:-"y"}" != "y" ]] && exit 1
 
-        copyNCreateFolders "$folder_name" "$number_of_command" "$numbering_position"
+        createFolders "$folder_name" "$number_of_command" "$numbering_position"
 
         [[ $? == 1 ]] && exit 1
         ;;

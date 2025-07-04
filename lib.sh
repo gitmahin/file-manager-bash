@@ -7,9 +7,9 @@ copyNCreateFiles() {
 
     # getting full path of the file to avoid errors 
     echo "Searching... [$file_name]"
-    file_location=$(sudo find / -iname "$file_name" 2>/dev/null | head -n 1)
+    file_location=$(find / -iname "$file_name" 2>/dev/null | head -n 1)
 
-    [[ ! -e "$file_location" ]] && { echo "File not found in this system"; exit 1; }
+    [[ ! -e "$file_location" ]] && { echo "File not found in this system"; return 1; }
 
     real_file=$(basename "$file_location")
 
@@ -24,7 +24,7 @@ copyNCreateFiles() {
     return 0
 }
 
-copyNCreateFolders() {
+createFolders() {
     folder_name=$1
     number_of_command=$2
     numbering_position="${3:-r}"
