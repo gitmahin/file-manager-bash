@@ -37,6 +37,13 @@ if [[ -d "$examples/$example_zenity" ]]; then
 
     cp ".gitmodules" "$examples/$example_zenity/"
 
+    recommended_files=("utils.sh" "constants.sh")
+
+    for (( i=0; i < "${#recommended_files[@]}"; i++ )); do
+        [[ ! -e "$examples/$example_zenity/src/${recommended_files["$i"]}" ]] && (touch "$examples/$example_zenity/src/${recommended_files["$i"]}")
+        echo "${recommended_files["$i"]} files created for zenity"
+    done
+
     echo "File copied to $examples/$example_zenity success"
  
 fi
