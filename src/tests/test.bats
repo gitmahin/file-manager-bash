@@ -17,8 +17,22 @@ setup(){
  
 }
 
+
 # bats test_tags=create-files
 @test "Should copy and create files serially without custom output file name" {
+  export filename="test.txt"
+  export number_of_command=3
+  run touch "$filename"
+
+  run bash -c 'source "$MAIN_ENTRY"; copyNCreateFiles "$filename" "" "$number_of_command"'
+  echo "ERROR DETAILS: <$output>"
+  [ "$status" -eq 0 ]
+
+}
+
+
+# bats test_tags=create-folders
+@test "Should create folder serially without custom output folder name" {
   export filename="test.txt"
   export number_of_command=3
   run touch "$filename"
