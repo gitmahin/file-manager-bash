@@ -1,52 +1,49 @@
 # !/bin/bash
 
-# extended globbing
-shopt -s extglob  
+examples="other-examples"
+example_npm="example-npm"
+example_zenity="example-zenity"
+
+example_files=("$example_npm" "$example_zenity")
 
 askToContinue() {
-    read -p "Do you want to override $1": options
+    read -p "$1 $2": options
     [[ "$options" != [yY] ]] && return 1
     return 0
 }
 
-emptyCleanUp(){
-    [[ -d "$1" && -z "$(ls -a "$1" | grep sh)" ]] && { rm -rf "$1"; echo "No .sh file found! Removing $1"; }
-}
-
-examples="examples"
-example_npm="example-npm"
-example_zenity="example-zenity"
-
-[[ ! -d "$examples/$example_npm" ]] && mkdir -p "$examples/$example_npm/src/tests"
-[[ ! -d "$examples/$example_zenity" ]] && mkdir -p "$examples/$example_zenity/src/tests"
+for (( i=0; i < "${#example_files[@]}"; i++ )); do
+    [[ ! -d "$examples" ]] && { echo "[$examples] folder not exist!"; }
+    [[ ! -d "$examples/${example_files["$i"]}" ]] && { echo "[${example_files["$i"]}] folder not exist"; mkdir -p "$examples/${example_files["$i"]}/src/tests" ; }
+done
 
 # EXAMPLE WITH NPM
 if [[ -d "$examples/$example_npm" ]]; then
+   
+    cp "src/constants.sh" "$examples/$example_npm/src/"
+    cp "src/utils.sh" "$examples/$example_npm/src/"
+    cp "src/lib.sh" "$examples/$example_npm/src/"
+    cp "src/filemanager.sh" "$examples/$example_npm/src/"
 
-    [[ -z "$(ls -a "$examples/$example_npm" | grep sh)" ]] && (askToContinue "$example_npm")
-    
-    if [[ $? == 0 ]]; then
-        cp "src/"*.sh "$examples/$example_npm/src/"
-        cp !(*-dist).sh "$examples/$example_npm/"
-        cp "src/tests/"*.bats "$examples/$example_npm/src/tests/"
+    cp "test.sh" "$examples/$example_npm/"
+    cp "src/tests/"*.bats "$examples/$example_npm/src/tests/"
 
-        read -p "Do you want to override install.sh file for npm? [y/n]": options
-        [[ "$options" == [yY] ]] && ( echo "# Write custom install.sh commmands for npm" > "$examples/$example_npm/install.sh" )
-    fi
+    echo "File copied to $examples/$example_npm success"
     
 fi
 
 # EXAMPLE WITH ZENITY
 if [[ -d "$examples/$example_zenity" ]]; then
    
-    [[ -z "$(ls -a "$examples/$example_zenity" | grep sh)" ]] && (askToContinue "$example_zenity")
+    cp "src/lib.sh" "$examples/$example_zenity/src/"
 
-    if [[ $? == 0 ]]; then
-        cp -r "src" "$examples/$example_zenity/"
-        cp !(*-dist).sh "$examples/$example_zenity/"
-        cp ".gitmodules" "$examples/$example_zenity/"
-    fi
+    cp -r "src/tests" "$examples/$example_zenity/src/"
+    cp "test.sh" "$examples/$example_zenity/"
+
+    cp "install.sh" "$examples/$example_zenity/"
+
+    cp ".gitmodules" "$examples/$example_zenity/"
+
+    echo "File copied to $examples/$example_zenity success"
+ 
 fi
-
-emptyCleanUp "$examples/$example_npm"
-emptyCleanUp "$examples/$example_zenity"
