@@ -7,8 +7,8 @@ if [[ ! -z "$input_test_files" ]]; then
     test_files_arr=(${input_test_files// / })
     echo "Filters:"
     for filter in "${test_files_arr[@]}"; do
-    echo "- $filter"
-    filter_tests+=" --filter-tags $filter"
+        echo "- $filter"
+        filter_tests+=" --filter-tags $filter"
     done
 fi
 
