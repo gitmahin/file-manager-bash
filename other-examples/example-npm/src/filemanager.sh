@@ -40,7 +40,7 @@ case $(echo "$option" | xargs) in
 2. Create new
 EOF
         )"
-        read -p "Choose - [1/2]: " option
+        option=$(optionSelector "[1/2]")
         
         number_of_command=1
         numbering_position="r"
@@ -74,21 +74,19 @@ EOF
                 ;;
             "2")
                 # FILES CREATION
-                read -p "Enter the file name: " file_name
+                read -p "Enter the file name (include file ext): " file_name
                 read -p "How many files do you want to create? (Should be positive integer): " number_of_command
-               
+                read -p "Set the numbering position: [L/R] " numbering_position
+                read -p "Starting from: [number] " start_numbering_from
+
                 # user commands
-                optionsListMessage "Your Command:" \
-                "" \
-                "$(
-                cat << EOF
-1. Given file name: $file_name
-2. Number of files creation: $number_of_command
-EOF
-                )"
+                getCommandPreviewForFilesFld "$file_name" "file" "$number_of_command" "$numbering_position" "$start_numbering_from"
 
                 askToContinue
-                createFiles "$file_name" "$number_of_command"
+
+                createFiles "$file_name" "$number_of_command" "$numbering_position" "$start_numbering_from"
+
+                [[ $? == 1 ]] && exit 1
                 ;;
             *)
                 exit 1
@@ -102,22 +100,15 @@ EOF
         # get core values
         read -p "Enter the folder name:" folder_name
         read -p "How many folders do you want to create?. (Should be positive integer): " number_of_command
-        read -p "Set the numbering position: [L/R]" numbering_position
+        read -p "Set the numbering position: [L/R] " numbering_position
+        read -p "Starting from: [number] " start_numbering_from
 
-                        # message
-                optionsListMessage "Your Command:" \
-                "" \
-                "$(
-                cat << EOF
-1. Given folder name: $folder_name
-2. Numbering position:" $numbering_position
-3. Number of folder creation: $number_of_command
-EOF
-                )"
+        # user commands
+        getCommandPreviewForFilesFld "$folder_name" "folder" "$number_of_command" "$numbering_position" "$start_numbering_from"        
 
         askToContinue
 
-        createFolders "$folder_name" "$number_of_command" "$numbering_position"
+        createFolders "$folder_name" "$number_of_command" "$numbering_position" "$start_numbering_from"
 
         [[ $? == 1 ]] && exit 1
         ;;

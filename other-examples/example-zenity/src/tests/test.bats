@@ -2,6 +2,7 @@
 
 export BATS_TMPDIR=""
 
+
 setup(){
 
   # get the containing directory of this file
@@ -11,9 +12,15 @@ setup(){
   # make executables in src/ visible to PATH
   PATH="$DIR/../src:$PATH" # Now we can directly access the file in @test. (e.g. run lib.sh)
 
+  load_lib() {
+    local name="$1"
+    bats_load_safe "test_helper/${name}/load"
+  }
+  
   # loading bats assertions
-  bats_load_safe 'test_helper/bats-support/load' || load "${DIR}/../../node_modules/bats-support/load" # this is for npm
-  bats_load_safe 'test_helper/bats-assert/load' ||  load "${DIR}/../../node_modules/bats-assert/load" # this is for npm
+  load_lib 'bats-support' || bats_load_safe "${DIR}/../../node_modules/bats-support/load" # this is for npm
+  load_lib 'bats-assert' ||  bats_load_safe "${DIR}/../../node_modules/bats-assert/load" # this is for npm
+  load_lib 'bats-file' ||  bats_load_safe "${DIR}/../../node_modules/bats-file/load" # this is for npm
 
   # Setting temporary directory to test file and folder creation
   BATS_TMPDIR=$(mktemp -d -t bats-test-XXXXXX)
@@ -57,10 +64,9 @@ setup(){
   # available by assertions load in setup
   # as files are creating in a loop and always printing after each file creation
   # we can use assert_line instead of assert_output to validate the correct output of file-naming
-  assert_line "Searching... [test.txt]"
-  assert_line "Created: test-2.txt"
-  assert_line "Created: test-3.txt"
-  assert_line "Created: test-4.txt"
+  assert_file_exists "test-2.txt"
+  assert_file_exists "test-3.txt"
+  assert_file_exists "test-4.txt"
 }
 
 # bats test_tags=create-files-2
@@ -76,12 +82,11 @@ setup(){
   echo "ERROR DETAILS: <$output>"
   [ "$status" -eq 0 ]
 
-  assert_line "Searching... [test.txt]"
-  assert_line "Created: my-file-2.txt"
-  assert_line "Created: my-file-3.txt"
-  assert_line "Created: my-file-4.txt"
-  assert_line "Created: my-file-5.txt"
-  assert_line "Created: my-file-6.txt"
+  assert_file_exists "my-file-2.txt"
+  assert_file_exists "my-file-3.txt"
+  assert_file_exists "my-file-4.txt"
+  assert_file_exists "my-file-5.txt"
+  assert_file_exists "my-file-6.txt"
 }
 
 # bats test_tags=create-folders-leftn
@@ -94,9 +99,10 @@ setup(){
 
   run bash -c 'source $TEMP_LIBSH_PATH; createFolders "$folder_name" "$number_of_command" "$numbering_position"'
   [ "$status" -eq 0 ]
-  assert_line "Created: 1-myfolder"
-  assert_line "Created: 2-myfolder"
-  assert_line "Created: 3-myfolder"
+
+  assert_dir_exists "1-myfolder"
+  assert_dir_exists "2-myfolder"
+  assert_dir_exists "3-myfolder"
 }
 
 # bats test_tags=create-folders-rightn
@@ -109,7 +115,8 @@ setup(){
 
   run bash -c 'source $TEMP_LIBSH_PATH; createFolders "$folder_name" "$number_of_command" "$numbering_position"'
   [ "$status" -eq 0 ]
-  assert_line "Created: myfolder-1"
-  assert_line "Created: myfolder-2"
-  assert_line "Created: myfolder-3"
+
+  assert_dir_exists "myfolder-1"
+  assert_dir_exists "myfolder-2"
+  assert_dir_exists "myfolder-3"
 }
