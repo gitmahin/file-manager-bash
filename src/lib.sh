@@ -34,11 +34,13 @@ createFolders() {
         if [[ "$numbering_position" == [lL] ]]; then
             left_nposition_file="$((($i+1)))-$folder_name"
             mkdir "$left_nposition_file"
+            echo "Created: $left_nposition_file"
             [[ ! -d "$left_nposition_file" ]] && { echo "Failed to create - $left_nposition_file"; return 1; }
 
         elif [[ "$numbering_position" == [rR] ]]; then
             right_nposition_file="$folder_name-$((($i+1)))"
             mkdir "$right_nposition_file"
+            echo "Created: $right_nposition_file"
             [[ ! -d "$right_nposition_file" ]] && { echo "Failed to create - $right_nposition_file"; return 1; }
 
         else
