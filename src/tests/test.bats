@@ -3,6 +3,13 @@
 export BATS_TMPDIR=""
 
 setup(){
+  load 'test_helper/bats-support/load'
+  load 'test_helper/bats-assert/load'
+
+  DIR="$(cd "$( dirname "$BATS_TEST_FILENAME" )" >/dev/null 2>&1 && pwd)"
+  # make executables in src/ visible to PATH
+  PATH="$DIR/../src:$PATH"
+
   current_dir=$(pwd)
   BATS_TMPDIR=$(mktemp -d -t bats-test-XXXXXX)
   export MAIN_ENTRY="${BATS_TEST_DIRNAME}/../lib.sh"
