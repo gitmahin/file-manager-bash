@@ -1,4 +1,5 @@
 # !/bin/bash
+
 terminalMessage(){
     type=$1
     case "$type" in

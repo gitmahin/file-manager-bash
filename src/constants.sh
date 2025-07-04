@@ -1,3 +1,5 @@
+# !/bin/bash
+
 # core
 create_file="Create files in bulk serially"
 create_folders="Create folders in bulk serially"
