@@ -5,6 +5,7 @@
 # can zip unzip files and folders
 
 source "./lib.sh"
+source "./utils.sh"
 
 documents_path=$(xdg-user-dir DOCUMENTS 2>/dev/null)
 
@@ -15,42 +16,6 @@ echo "Initialized filemanager path for $documents_path"
 
 option=""
 
-terminalMessage(){
-    type=$1
-    case "$type" in
-        "select")
-            type="SELECTED"
-            ;;
-        "invalid")
-            type="INVALID"
-            ;;
-        "error")
-            type="ERROR"
-            ;;
-        *)
-            type="UNDEFINED"
-            ;;
-    esac
-
-    cat << EOF 
-
-**********************************
-$type
-$2
-**********************************
-EOF
-}
-
-optionsListMessage() {
-    title=$1
-    desc=$2
-    options=$3
-    cat << EOF
-$title
-$desc
-$options
-EOF
-}
 
 
 
@@ -84,11 +49,12 @@ EOF
         numbering_position="r"
         case $(echo "$option" | xargs) in
             "1")
+                # COPY AND CREATE FILES
                 # get core values 
                 read -p "Enter the file name (include file ext): " file_name 
                 read -p "How many files do you want to create? (Should be positive integer): " number_of_command
 
-                # asking
+                # asking modify output file name
                 read -p "Want to modify default settings? - [y/n]: " option
                 [[ "${option:-"n"}" == "y" ]] && read -p "Output file name: " output_file_name 
 
@@ -103,22 +69,33 @@ EOF
 EOF
                 )"
 
-                # asking
-                read -p "Continue? - [y/n]: " option
-                [[ "${option:-"y"}" != "y" ]] && exit 1
+                askToContinue
 
                 copyNCreateFiles "$file_name" "$output_file_name" "$number_of_command"
                 
                 [[ $? == 1 ]] && exit 1
                 ;;
             "2")
+                # FILES CREATION
+                read -p "Enter the file name: " file_name
+                read -p "How many files do you want to create? (Should be positive integer): " number_of_command
                
+                # user commands
+                optionsListMessage "Your Command:" \
+                "" \
+                "$(
+                cat << EOF
+1. Given file name: $file_name
+2. Number of files creation: $number_of_command
+EOF
+                )"
+
+                askToContinue
                 ;;
             *)
+                exit 1
                 ;;
         esac
-
-
         ;;
     "2")
         # selected message
@@ -140,9 +117,7 @@ EOF
 EOF
                 )"
 
-        # asking
-        read -p "Continue? - [y/n]: " option
-        [[ "${option:-"y"}" != "y" ]] && exit 1
+        askToContinue
 
         createFolders "$folder_name" "$number_of_command" "$numbering_position"
 
@@ -153,9 +128,8 @@ EOF
         ;;
     *)
         terminalMessage invalid "Please Choose a correct one"
+        exit 1
         ;;
-        
-
 esac
 
 
