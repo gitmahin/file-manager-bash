@@ -4,6 +4,3 @@
 [submodule "src/tests/test_helper/bats-assert"]
 	path = src/tests/test_helper/bats-assert
 	url = https://github.com/bats-core/bats-assert.git
-[submodule "src/tests/test_helper/bats-file"]
-	path = src/tests/test_helper/bats-file
-	url = https://github.com/bats-core/bats-assert.git

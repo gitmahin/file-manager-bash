@@ -1,6 +1,6 @@
 input_test_files=$1
 
-
+# making --filter-tags if filters
 if [[ ! -z "$input_test_files" ]]; then
     test_files_arr=(${input_test_files// / })
     echo "Filters:"
