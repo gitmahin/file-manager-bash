@@ -1,5 +1,4 @@
 sudo apt-get install git
-sudo rm -rf .gitmodules 2>/dev/null
 git submodule add --force  https://github.com/bats-core/bats-support.git src/tests/test_helper/bats-support
 git submodule add --force  https://github.com/bats-core/bats-assert.git src/tests/test_helper/bats-assert
 cd ~
