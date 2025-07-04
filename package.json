@@ -8,17 +8,9 @@
     "test": "bash test.sh",
     "start": "bash start.sh"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/gitmahin/file-manager-bash.git"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/gitmahin/file-manager-bash/issues"
-  },
-  "homepage": "https://github.com/gitmahin/file-manager-bash#readme",
   "description": "",
   "devDependencies": {
     "bats": "^1.12.0",
