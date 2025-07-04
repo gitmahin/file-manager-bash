@@ -13,6 +13,8 @@ cd "$current_path"
 chmod -v 755 install.sh permission.sh start.sh test.sh
 chmod -v 755 src/filemanager.sh
 source "./test.sh"
+
+# change directory to src so that multiple sources can be accessed by filemanager.sh
 cd src
 "./filemanager.sh"
  
