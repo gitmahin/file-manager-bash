@@ -19,7 +19,22 @@ copyNCreateFiles() {
             dest_file="$extracted_file_name-$((($i+2))).$file_ext"
             cp "$file_location" "$dest_file"
             echo "Created: $dest_file"
-            [[ ! -e $dest_file ]] && { echo "Failed to create - $dest_file"; return 1; }
+            [[ ! -e "$dest_file" ]] && { echo "Failed to create - $dest_file"; return 1; }
+    done
+    return 0
+}
+
+createFiles(){
+    file_name=$1
+    number_of_command=$2
+
+    IFS="." read -r extracted_file_name file_ext <<< "$file_name"
+    for (( i=0; i < "$number_of_command"; i++ )); do
+        new_file="$extracted_file_name-$((i+1)).$file_ext"
+        touch "$new_file"
+        echo "$(pwd)"
+        echo "Created: $extracted_file_name-$((i+1)).$file_ext"
+        [[ ! -e "$new_file" ]] && { echo "Failed to create - $new_file"; return 1; }
     done
     return 0
 }
