@@ -3,6 +3,7 @@
 export BATS_TMPDIR=""
 
 setup(){
+
   # get the containing directory of this file
   # use $BATS_TEST_FILENAME instead of ${BASH_SOURCE[0]} or $0,
   # as those will point to the bats executable's location or the preprocessed file respectively
@@ -11,9 +12,8 @@ setup(){
   PATH="$DIR/../src:$PATH" # Now we can directly access the file in @test. (e.g. run lib.sh)
 
   # loading bats assertions
-
-
-  current_dir=$(pwd)
+  bats_load_safe 'test_helper/bats-support/load' || load "${DIR}/../../node_modules/bats-support/load"
+  bats_load_safe 'test_helper/bats-assert/load' ||  load "${DIR}/../../node_modules/bats-assert/load"
 
   # Setting temporary directory to test file and folder creation
   BATS_TMPDIR=$(mktemp -d -t bats-test-XXXXXX)
