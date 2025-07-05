@@ -43,6 +43,7 @@ setup() {
   # available by assertions load in setup
   # as files are creating in a loop and always printing after each file creation
   # we can use assert_line instead of assert_output to validate the correct output of file-naming
+  assert_file_exists "test.txt"
   assert_file_exists "test-2.txt"
   assert_file_exists "test-3.txt"
   assert_file_exists "test-4.txt"
@@ -63,6 +64,8 @@ setup() {
   echo "OUTPUT: <$output>"
   assert_success
 
+  
+  assert_file_exists "test.txt"
   assert_file_exists "5-my-file.txt"
   assert_file_exists "6-my-file.txt"
   assert_file_exists "7-my-file.txt"
