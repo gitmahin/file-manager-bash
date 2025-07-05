@@ -21,6 +21,7 @@ if [[ -d "$examples/$example_npm" ]]; then
     cp "test.sh" "$examples/$example_npm/"
     cp "start.sh" "$examples/$example_npm/"
     cp "src/tests/"*.bats "$examples/$example_npm/src/tests/"
+    cp "src/tests/helper.bash" "$examples/$example_npm/src/tests/"
 
     echo "File copied to $examples/$example_npm success"
     
