@@ -1,10 +1,12 @@
 #!/usr/bin/env bats
+# bats file_tags=create-folders
 
 bats_load_safe "helper.bash"
 
 setup() {
-    setup_testing_ground
-    setup_file_assertion
+  setup_testing_ground
+  setup_common_assertion
+  setup_file_assertion
 }
 
 # bats test_tags=create-folders-leftn
@@ -16,7 +18,8 @@ setup() {
   cd "$BATS_TMPDIR" || exit 1
 
   run bash -c 'source $TEMP_LIBSH_PATH; createFolders "$folder_name" "$number_of_command" "$numbering_position"'
-  [ "$status" -eq 0 ]
+  echo "OUTPUT: <$output>"
+  assert_success
 
   assert_dir_exists "1-myfolder"
   assert_dir_exists "2-myfolder"
@@ -32,7 +35,8 @@ setup() {
   cd "$BATS_TMPDIR" || exit 1
 
   run bash -c 'source $TEMP_LIBSH_PATH; createFolders "$folder_name" "$number_of_command" "$numbering_position"'
-  [ "$status" -eq 0 ]
+  echo "OUTPUT: <$output>"
+  assert_success
 
   assert_dir_exists "myfolder-1"
   assert_dir_exists "myfolder-2"

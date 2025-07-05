@@ -1,8 +1,11 @@
 #!/usr/bin/env bats
+# bats file_tags=copy-files
+
 bats_load_safe "helper.bash"
 
 setup() {
     setup_testing_ground
+    setup_common_assertion
     setup_file_assertion
 }
 
@@ -27,12 +30,15 @@ setup() {
   run bash -c 'source $TEMP_LIBSH_PATH; copyNCreateFiles "$file_name" "$number_of_command" "" "" ""'
 
   # output of bats testing
-  echo "ERROR DETAILS: <$output>"
+  echo "OUTPUT: <$output>"
 
   # status of bats testing. 
   # To make this status work properly we have to always return 0 or 1 in functions. 
   # Dont exit 1 or 0 in function cause it will exit the bats testing
-  [ "$status" -eq 0 ]
+  # [ "$status" -eq 0 ]
+
+  # or use bats-assert
+  assert_success
   
   # available by assertions load in setup
   # as files are creating in a loop and always printing after each file creation
@@ -54,12 +60,13 @@ setup() {
   run touch "$file_name"
 
   run bash -c 'source $TEMP_LIBSH_PATH; copyNCreateFiles "$file_name" "$number_of_command" "$numbering_position" "$start_numbering_from" "$output_file_name"'
-  echo "ERROR DETAILS: <$output>"
-  [ "$status" -eq 0 ]
+  echo "OUTPUT: <$output>"
+  assert_success
 
   assert_file_exists "5-my-file.txt"
   assert_file_exists "6-my-file.txt"
   assert_file_exists "7-my-file.txt"
   assert_file_exists "8-my-file.txt"
   assert_file_exists "9-my-file.txt"
+
 }
