@@ -4,7 +4,8 @@
 # can create multiple files and folders
 # can zip unzip files and folders
 
-source "$START_SCRIPT_DIR/src/lib.sh"
+START_SCRIPT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+source "$START_SCRIPT_DIR/lib.sh"
 source "$START_SCRIPT_DIR/utils.sh"
 source "$START_SCRIPT_DIR/constants.sh"
 

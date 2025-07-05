@@ -1,4 +1,5 @@
 # !/bin/bash
+
 START_SCRIPT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 source "$START_SCRIPT_DIR/utils.sh"
 
