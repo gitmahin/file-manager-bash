@@ -7,13 +7,6 @@
 source "$START_SCRIPT_DIR/src/lib.sh"
 source "$START_SCRIPT_DIR/src/utils.sh"
 
-documents_path=$(xdg-user-dir DOCUMENTS 2>/dev/null)
-
-[[ ! -d  "$documents_path" ]] && documents_path="$HOME/Documents"
-
-mkdir -p "$documents_path/filemanager"
-echo "Initialized filemanager path for $documents_path"
-
 option=""
 
 cat << EOF

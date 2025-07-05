@@ -63,7 +63,6 @@ setup() {
   run bash -c 'source $TEMP_LIBSH_PATH; copyNCreateFiles "$file_name" "$number_of_command" "$numbering_position" "$start_numbering_from" "$output_file_name"'
   echo "OUTPUT: <$output>"
   assert_success
-
   
   assert_file_exists "test.txt"
   assert_file_exists "5-my-file.txt"
