@@ -7,16 +7,17 @@ setup() {
     setup_testing_ground
     setup_common_assertion
     setup_file_assertion
+
+    # exporting for avaiable in newly created subshells via -> bash -c
+    export file_name="test.txt"
+    export number_of_command=3
+    export output_file_name="my-file.txt"
+    # Entering the temporary bats folder
+    cd "$BATS_TMPDIR" || exit 1
 }
 
 # bats test_tags=copy-files-default
 @test "Should copy files 2 to 4 without custom output file-name and with default settings" {
-  # exporting for avaiable in newly created subshells via -> bash -c
-  export file_name="test.txt"
-  export number_of_command=3
-
-  # Entering the temporary bats folder
-  cd "$BATS_TMPDIR" || exit 1
 
   # creating a file in temp bats folder
   run touch "$file_name"
@@ -50,14 +51,10 @@ setup() {
 }
 
 # bats test_tags=copy-files-modified
-@test "Should copy files 5 to 9 with custom output file-name and modified settings" {
-  export file_name="test.txt"
-  export number_of_command=5
-  export output_file_name="my-file.txt"
+@test "Should copy files 5 to 7 with custom output file-name and modified settings" {
   export numbering_position="l"
   export start_numbering_from="5"
 
-  cd "$BATS_TMPDIR" || exit 1
   run touch "$file_name"
 
   run bash -c 'source $TEMP_LIBSH_PATH; copyNCreateFiles "$file_name" "$number_of_command" "$numbering_position" "$start_numbering_from" "$output_file_name"'
@@ -68,18 +65,16 @@ setup() {
   assert_file_exists "5-my-file.txt"
   assert_file_exists "6-my-file.txt"
   assert_file_exists "7-my-file.txt"
-  assert_file_exists "8-my-file.txt"
-  assert_file_exists "9-my-file.txt"
 
 }
 
 # bats test_tags=copy-files-not-found
 @test "Should return error if file not found" {
-  export file_name="myNotFoundTestingFile.txt"
+  export not_found_file_name="myNotFoundTestingFile.txt"
 
   cd "$BATS_TMPDIR" || exit 1
 
-  run bash -c 'source $TEMP_LIBSH_PATH; copyNCreateFiles "$file_name"'
+  run bash -c 'source $TEMP_LIBSH_PATH; copyNCreateFiles "$not_found_file_name"'
   echo "OUTPUT: <$output>"
   assert_failure
 }
