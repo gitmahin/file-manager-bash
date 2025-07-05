@@ -59,7 +59,7 @@ You can also filter tests by tags (space-separated):
 
 To dive deeper, refer to the official [bats-core](https://bats-core.readthedocs.io/en/stable/#) documentation.
 
-> [!INFO]
+> [!NOTE]
 > This project is written with detailed inline comments so you can learn unit testing while reading the code.
 
 ---
