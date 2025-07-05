@@ -7,15 +7,15 @@ setup() {
   setup_testing_ground
   setup_common_assertion
   setup_file_assertion
+
+  export folder_name="myfolder"
+  export number_of_command=3
 }
 
 # bats test_tags=create-folders-leftn
 @test "Should create folders 1 to 3 with left numbering position" {
-  export folder_name="myfolder"
-  export number_of_command=3
-  export numbering_position="l"
 
-  cd "$BATS_TMPDIR" || exit 1
+  export numbering_position="l"
 
   run bash -c 'source $TEMP_LIBSH_PATH; createFolders "$folder_name" "$number_of_command" "$numbering_position"'
   echo "OUTPUT: <$output>"
@@ -28,11 +28,7 @@ setup() {
 
 # bats test_tags=create-folders-rightn
 @test "Should create folders 1 to 3 with right numbering position" {
-  export folder_name="myfolder"
-  export number_of_command=3
   export numbering_position="r"
-
-  cd "$BATS_TMPDIR" || exit 1
 
   run bash -c 'source $TEMP_LIBSH_PATH; createFolders "$folder_name" "$number_of_command" "$numbering_position"'
   echo "OUTPUT: <$output>"
@@ -45,11 +41,8 @@ setup() {
 
 # bats test_tags=create-folders-undefined
 @test "Should return error if no folder name is provided" {
-  export folder_name=""
 
-  cd "$BATS_TMPDIR" || exit 1
-
-  run bash -c 'source $TEMP_LIBSH_PATH; createFolders "$folder_name"'
+  run bash -c 'source $TEMP_LIBSH_PATH; createFolders ""'
   echo "OUTPUT: <$output>"
 
   # cause createFolders with empty file name is returning 1. 

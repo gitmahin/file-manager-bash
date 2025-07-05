@@ -11,7 +11,6 @@ setup(){
     export folder_name="my-folder"
     export number_of_command=5
 
-    cd "$BATS_TMPDIR" || exit 1
     mkdir "$folder_name"
 }
 
@@ -49,7 +48,7 @@ setup(){
 # bats test_tags=copy-folders-output-name
 @test "Should copy folders 2 to 6 with custom output folder name and default settings" {
     export output_folder_name="custom-folder"
-    
+
     run bash -c 'source $TEMP_LIBSH_PATH; copyNCreateFolders "$folder_name" "$number_of_command" "" "" "$output_folder_name"'
     echo "OUTPUT: <$output>"
 

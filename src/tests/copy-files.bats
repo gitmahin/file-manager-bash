@@ -12,8 +12,6 @@ setup() {
     export file_name="test.txt"
     export number_of_command=3
     export output_file_name="my-file.txt"
-    # Entering the temporary bats folder
-    cd "$BATS_TMPDIR" || exit 1
 }
 
 # bats test_tags=copy-files-default
