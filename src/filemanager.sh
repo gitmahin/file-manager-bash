@@ -5,8 +5,8 @@
 # can zip unzip files and folders
 
 source "$START_SCRIPT_DIR/src/lib.sh"
-source "$START_SCRIPT_DIR/src/utils.sh"
-source "$START_SCRIPT_DIR/src/constants.sh"
+source "$START_SCRIPT_DIR/utils.sh"
+source "$START_SCRIPT_DIR/constants.sh"
 
 option=""
 
@@ -43,7 +43,7 @@ EOF
 
                 # get core values 
                 IFS="," read -r file_name number_of_command numbering_position start_numbering_from <<< "$( getFileFldCreationInput "file" )"
-                IFS="," read -r output_file_name <<< "$( modifyFileFldCopyCreationInput "file" )"
+                output_file_name="$( modifyFileFldCopyCreationInput "file" )"
 
                 # user commands
                 getCommandPreviewForFilesFld "file" "$file_name" "$number_of_command" "$numbering_position" "$start_numbering_from"
