@@ -95,11 +95,12 @@ copyNCreateFolders() {
     number_of_command="${2:-1}"
     numbering_position="${3:-r}"
     start_numbering_from="${4:-2}"
+    output_folder_name="$5"
 
     [[ ! -d "$folder_name" ]] && { echo "Cannot find your folder"; return 1; }
 
     for (( i=0; i<number_of_command; i++ )); do
-        new_folder="$(getFolderWithNumberingPosition "$folder_name" "$numbering_position")"
+        new_folder="$(getFolderWithNumberingPosition "${output_folder_name:-"$folder_name"}" "$numbering_position")"
         [[ $? == 1 ]] && return 1
 
         cp -r "$folder_name" "$new_folder"
