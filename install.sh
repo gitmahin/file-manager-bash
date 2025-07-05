@@ -5,8 +5,6 @@ set -e
 
 current_path=$(pwd)
 
-sudo apt-get install bash
-
 START_SCRIPT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
 
 # create symbolic link
