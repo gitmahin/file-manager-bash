@@ -35,6 +35,7 @@ copyNCreateFiles() {
             echo "Copied & Created: $dest_file"
             [[ ! -e "$dest_file" ]] && { echo "Failed to create - $dest_file"; return 1; }
     done
+    echo "done"
     return 0
 }
 
@@ -87,7 +88,7 @@ createFolders() {
         [[ ! -d "$new_folder" ]] && { echo "Failed to create - $new_folder"; return 1; }
 
     done
-
+    echo "done"
     return 0
 }
 
@@ -109,6 +110,6 @@ copyNCreateFolders() {
 
         [[ ! -d "$new_folder" ]] && { echo "Failed to copy & create- $new_folder"; return 1; }
     done
-
+    echo "done"
     return 0
 }

@@ -90,10 +90,12 @@ EOF
 
                 # get core values
                 IFS="," read -r folder_name number_of_command numbering_position start_numbering_from <<< "$( getFileFldCreationInput "folder" )"
+                output_folder_name="$( modifyFileFldCopyCreationInput "folder" )"
                 # user commands
                 getCommandPreviewForFilesFld "folder" "$folder_name" "$number_of_command" "$numbering_position" "$start_numbering_from"      
+                getModifyDefaultCommandPreview "folder" "$output_folder_name"
                 askToContinue
-
+                copyNCreateFolders "$folder_name" "$number_of_command" "$numbering_position" "$start_numbering_from" "$output_folder_name"
                 ;;
             "2")
                 terminalMessage select "$create_new_folder"

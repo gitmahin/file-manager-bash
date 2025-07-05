@@ -89,7 +89,7 @@ modifyFileFldCopyCreationInput() {
 }
 
 getModifyDefaultCommandPreview(){
-local type=$1 name$2
+local type=$1 name=$2
 cat << EOF
 
 More:
