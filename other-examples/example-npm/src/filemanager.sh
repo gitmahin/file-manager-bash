@@ -40,52 +40,32 @@ case $(echo "$option" | xargs) in
 2. Create new
 EOF
         )"
+
         option=$(optionSelector "[1/2]")
-        
-        number_of_command=1
-        numbering_position="r"
         case $(echo "$option" | xargs) in
             "1")
                 # COPY AND CREATE FILES
                 # get core values 
-                read -p "Enter the file name (include file ext): " file_name 
-                read -p "How many files do you want to create? (Should be positive integer): " number_of_command
 
-                # asking modify output file name
-                read -p "Want to modify default settings? - [y/n]: " option
-                [[ "${option:-"n"}" == "y" ]] && read -p "Output file name: " output_file_name 
+                IFS="," read -r file_name number_of_command numbering_position start_numbering_from <<< "$( getFileFldCreationInput "file" )"
+                IFS="," read -r output_file_name <<< "$( modifyFileFldCopyCreationInput "file" )"
 
                 # user commands
-                optionsListMessage "Your Command:" \
-                "" \
-                "$(
-                cat << EOF
-1. Given file name: $file_name
-2. Output file name: ${output_file_name:-"DEFAULT"}
-3. Number of files creation: $number_of_command
-EOF
-                )"
-
+                getCommandPreviewForFilesFld "file" "$file_name" "$number_of_command" "$numbering_position" "$start_numbering_from"
+                getModifyDefaultCommandPreview "file" "$output_file_name"
                 askToContinue
-
-                copyNCreateFiles "$file_name" "$output_file_name" "$number_of_command"
+                copyNCreateFiles "$file_name" "$number_of_command" "$numbering_position" "$start_numbering_from" "$output_file_name"
                 
                 [[ $? == 1 ]] && exit 1
                 ;;
             "2")
                 # FILES CREATION
-                read -p "Enter the file name (include file ext): " file_name
-                read -p "How many files do you want to create? (Should be positive integer): " number_of_command
-                read -p "Set the numbering position: [L/R] " numbering_position
-                read -p "Starting from: [number] " start_numbering_from
-
+                # get core values
+                IFS="," read -r file_name number_of_command numbering_position start_numbering_from <<< "$( getFileFldCreationInput "file" )"
                 # user commands
-                getCommandPreviewForFilesFld "$file_name" "file" "$number_of_command" "$numbering_position" "$start_numbering_from"
-
+                getCommandPreviewForFilesFld "file" "$file_name" "$number_of_command" "$numbering_position" "$start_numbering_from"
                 askToContinue
-
                 createFiles "$file_name" "$number_of_command" "$numbering_position" "$start_numbering_from"
-
                 [[ $? == 1 ]] && exit 1
                 ;;
             *)
@@ -96,18 +76,11 @@ EOF
     "2")
         # selected message
         terminalMessage select "Create folders in bulk serially"
-
         # get core values
-        read -p "Enter the folder name:" folder_name
-        read -p "How many folders do you want to create?. (Should be positive integer): " number_of_command
-        read -p "Set the numbering position: [L/R] " numbering_position
-        read -p "Starting from: [number] " start_numbering_from
-
+        IFS="," read -r folder_name number_of_command numbering_position start_numbering_from <<< "$( getFileFldCreationInput "folder" )"
         # user commands
-        getCommandPreviewForFilesFld "$folder_name" "folder" "$number_of_command" "$numbering_position" "$start_numbering_from"        
-
+        getCommandPreviewForFilesFld "folder" "$folder_name" "$number_of_command" "$numbering_position" "$start_numbering_from"        
         askToContinue
-
         createFolders "$folder_name" "$number_of_command" "$numbering_position" "$start_numbering_from"
 
         [[ $? == 1 ]] && exit 1

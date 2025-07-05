@@ -2,8 +2,10 @@
 
 copyNCreateFiles() {
     file_name=$1
-    output_file_name=$2
-    number_of_command=$3
+    number_of_command=${2:-1}
+    numbering_position="${3:-r}"
+    start_numbering_from=${4:-2}
+    output_file_name=$5
 
     # getting full path of the file to avoid errors 
     echo "Searching... [$file_name]"
@@ -16,7 +18,16 @@ copyNCreateFiles() {
     IFS="." read -r extracted_file_name file_ext <<< "${output_file_name:-"$real_file"}"
     for (( i=0; i < "$number_of_command"; i++ )); do
             # fallback output_file_name
-            dest_file="$extracted_file_name-$((i+2)).$file_ext"
+
+            if [[ "$numbering_position" == [lL] ]]; then
+                dest_file="$((i+start_numbering_from))-$extracted_file_name.$file_ext"
+            elif [[ "$numbering_position" == [rR] ]]; then
+                dest_file="$extracted_file_name-$((i+start_numbering_from)).$file_ext"
+            else
+                echo "Invalid request!"
+                return 1
+            fi
+
             cp "$file_location" "$dest_file"
             echo "Created: $dest_file"
             [[ ! -e "$dest_file" ]] && { echo "Failed to create - $dest_file"; return 1; }
@@ -37,21 +48,17 @@ createFiles(){
 
 
         if [[ "$numbering_position" == [lL] ]]; then
-            left_nposition_file="$((i+start_numbering_from))-$extracted_file_name.$file_ext"
-            touch "$left_nposition_file"
-            echo "Created: $left_nposition_file"
-            [[ ! -e "$left_nposition_file" ]] && { echo "Failed to create - $left_nposition_file"; return 1; }
-
+            new_file="$((i+start_numbering_from))-$extracted_file_name.$file_ext"
         elif [[ "$numbering_position" == [rR] ]]; then
-            right_nposition_file="$extracted_file_name-$((i+start_numbering_from)).$file_ext"
-            touch "$right_nposition_file"
-            echo "Created: $right_nposition_file"
-            [[ ! -e "$right_nposition_file" ]] && { echo "Failed to create - $right_nposition_file"; return 1; }
-
+            new_file="$extracted_file_name-$((i+start_numbering_from)).$file_ext"
         else
             echo "Invalid request!"
             return 1
         fi
+
+        touch "$new_file"
+        echo "Created: $new_file"
+        [[ ! -e "$new_file" ]] && { echo "Failed to create - $new_file"; return 1; }
 
     done
     echo "done"
@@ -69,21 +76,17 @@ createFolders() {
     for (( i=0; i < "$number_of_command"; i++ )); do
 
         if [[ "$numbering_position" == [lL] ]]; then
-            left_nposition_folder="$((i+start_numbering_from))-$folder_name"
-            mkdir "$left_nposition_folder"
-            echo "Created: $left_nposition_folder"
-            [[ ! -d "$left_nposition_folder" ]] && { echo "Failed to create - $left_nposition_folder"; return 1; }
-
+            new_folder="$((i+start_numbering_from))-$folder_name"
         elif [[ "$numbering_position" == [rR] ]]; then
-            right_nposition_folder="$folder_name-$((i+start_numbering_from))"
-            mkdir "$right_nposition_folder"
-            echo "Created: $right_nposition_folder"
-            [[ ! -d "$right_nposition_folder" ]] && { echo "Failed to create - $right_nposition_folder"; return 1; }
-
+            new_folder="$folder_name-$((i+start_numbering_from))"
         else
             echo "Invalid request!"
             return 1
         fi
+
+        mkdir "$new_folder"
+        echo "Created: $new_folder"
+        [[ ! -d "$new_folder" ]] && { echo "Failed to create - $new_folder"; return 1; }
 
     done
 
