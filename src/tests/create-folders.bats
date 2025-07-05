@@ -46,12 +46,10 @@ setup() {
 # bats test_tags=create-folders-undefined
 @test "Should return error if no folder name is provided" {
   export folder_name=""
-  export number_of_command=3
-  export numbering_position="r"
 
   cd "$BATS_TMPDIR" || exit 1
 
-  run bash -c 'source $TEMP_LIBSH_PATH; createFolders "$folder_name" "$number_of_command" "$numbering_position"'
+  run bash -c 'source $TEMP_LIBSH_PATH; createFolders "$folder_name"'
   echo "OUTPUT: <$output>"
 
   # cause createFolders with empty file name is returning 1. 

@@ -49,3 +49,16 @@ setup(){
   assert_file_exists "9-my-file.txt"
 
 }
+
+# bats test_tags=create-files-undefined
+@test "Should return error if no file name is provided" {
+  export file_name=""
+
+  cd "$BATS_TMPDIR" || exit 1
+
+  run bash -c 'source $TEMP_LIBSH_PATH; createFiles "$file_name"'
+  echo "OUTPUT: <$output>"
+
+  assert_failure
+
+}

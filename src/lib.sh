@@ -99,7 +99,8 @@ copyNCreateFolders() {
     numbering_position="${3:-r}"
     start_numbering_from="${4:-1}"
 
-    [[ -d "$folder_name" ]] && { echo "Folder name cannot be undefined"; return 1; }
+    [[ ! -d "$folder_name" ]] && { echo "Folder name cannot be undefined"; return 1; }
+
 
 
 

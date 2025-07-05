@@ -72,3 +72,14 @@ setup() {
   assert_file_exists "9-my-file.txt"
 
 }
+
+# bats test_tags=copy-files-not-found
+@test "Should return error if file not found" {
+  export file_name="myNotFoundTestingFile.txt"
+
+  cd "$BATS_TMPDIR" || exit 1
+
+  run bash -c 'source $TEMP_LIBSH_PATH; copyNCreateFiles "$file_name"'
+  echo "OUTPUT: <$output>"
+  assert_failure
+}
