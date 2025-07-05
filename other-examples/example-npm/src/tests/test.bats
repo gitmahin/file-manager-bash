@@ -20,7 +20,7 @@ setup(){
   # loading bats assertions
   load_lib 'bats-support' || bats_load_safe "${DIR}/../../node_modules/bats-support/load" # this is for npm
   load_lib 'bats-assert' ||  bats_load_safe "${DIR}/../../node_modules/bats-assert/load" # this is for npm
-  load_lib 'bats-file' ||  bats_load_safe "${DIR}/../../node_modules/bats-file/load" # this is for npm
+  load_lib 'bats-file' ||  load "${DIR}/../../node_modules/bats-file/load.bash" # this is for npm
 
   # Setting temporary directory to test file and folder creation
   BATS_TMPDIR=$(mktemp -d -t bats-test-XXXXXX)
