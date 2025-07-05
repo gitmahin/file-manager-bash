@@ -19,7 +19,7 @@ if [[ -d "$examples/$example_npm" ]]; then
     cp "src/filemanager.sh" "$examples/$example_npm/src/"
 
     cp "test.sh" "$examples/$example_npm/"
-    cp "start.sh" "$examples/$example_npm/"
+    cp "start.dev.sh" "$examples/$example_npm/"
     cp "src/tests/"*.bats "$examples/$example_npm/src/tests/"
     cp "src/tests/helper.bash" "$examples/$example_npm/src/tests/"
 
@@ -36,7 +36,7 @@ if [[ -d "$examples/$example_zenity" ]]; then
     cp "test.sh" "$examples/$example_zenity/"
 
     cp "install.dev.sh" "$examples/$example_zenity/"
-    cp "start.sh" "$examples/$example_zenity/"
+    cp "start.dev.sh" "$examples/$example_zenity/"
 
     cp ".gitmodules" "$examples/$example_zenity/"
 

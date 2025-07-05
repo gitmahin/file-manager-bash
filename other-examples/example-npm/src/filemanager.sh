@@ -87,7 +87,6 @@ EOF
         case $( echo "$option" | xargs ) in
             "1")
                terminalMessage select "$copy_create_folder"
-
                 # get core values
                 IFS="," read -r folder_name number_of_command numbering_position start_numbering_from <<< "$( getFileFldCreationInput "folder" )"
                 output_folder_name="$( modifyFileFldCopyCreationInput "folder" )"
