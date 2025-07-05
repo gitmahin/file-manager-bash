@@ -3,6 +3,12 @@
 # getting filters from input
 input_test_files=$1
 
+if [[ ! -e "/usr/local/bin/bats" ]]; then
+    echo "bats-core not found! Installing..."
+    chmod -v 755 "install.dev.sh"
+    bash "install.dev.sh"
+fi
+
 # making --filter-tags if filters
 if [[ ! -z "$input_test_files" ]]; then
     # spliting string via space and store in array -> test_files_arr

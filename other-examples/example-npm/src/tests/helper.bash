@@ -21,6 +21,9 @@ setup_testing_ground() {
     BATS_TMPDIR=$(mktemp -d -t bats-test-XXXXXX)
     # exporting for available in whole tests
     export TEMP_LIBSH_PATH="${BATS_TEST_DIRNAME}/../lib.sh"
+
+    # Entering the temporary bats folder
+    cd "$BATS_TMPDIR" || exit 1
 }
 
 setup_common_assertion(){

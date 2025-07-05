@@ -13,8 +13,5 @@ bats --version
 
 cd "$current_path"
 chmod -v 755 start.sh test.sh
-chmod -v 755 src/filemanager.sh
-
-# run test
-./test.sh
+chmod -v -r 755 src
  

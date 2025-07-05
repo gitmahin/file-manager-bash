@@ -4,15 +4,10 @@
 # can create multiple files and folders
 # can zip unzip files and folders
 
-source "$START_SCRIPT_DIR/src/lib.sh"
-source "$START_SCRIPT_DIR/src/utils.sh"
-
-documents_path=$(xdg-user-dir DOCUMENTS 2>/dev/null)
-
-[[ ! -d  "$documents_path" ]] && documents_path="$HOME/Documents"
-
-mkdir -p "$documents_path/filemanager"
-echo "Initialized filemanager path for $documents_path"
+START_SCRIPT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+source "$START_SCRIPT_DIR/lib.sh"
+source "$START_SCRIPT_DIR/utils.sh"
+source "$START_SCRIPT_DIR/constants.sh"
 
 option=""
 
@@ -21,23 +16,23 @@ cat << EOF
 ====Welcome To The Filemanager=====
 ***********************************
 Select a task to perform.
-1. Create files in bulk serially
-2. Create folders in bulk serially
-3. Zip manager
+1. $create_file
+2. $create_folders
 EOF
 
 read -p "Choose a task - [1/2/3]: " option
 
+# xargs to trim leading/trailing whitespace
 case $(echo "$option" | xargs) in
     "1")
         # selected message
-        terminalMessage select "Create files in bulk serially"
+        terminalMessage select "$create_file"
         # choose options
         optionsListMessage "Select which task to perform" \
         ""\
         "$(cat << EOF 
-1. Copy and Create
-2. Create new
+1. $copy_create
+2. $create_new
 EOF
         )"
 
@@ -45,10 +40,11 @@ EOF
         case $(echo "$option" | xargs) in
             "1")
                 # COPY AND CREATE FILES
-                # get core values 
+                terminalMessage select "$copy_create"
 
+                # get core values 
                 IFS="," read -r file_name number_of_command numbering_position start_numbering_from <<< "$( getFileFldCreationInput "file" )"
-                IFS="," read -r output_file_name <<< "$( modifyFileFldCopyCreationInput "file" )"
+                output_file_name="$( modifyFileFldCopyCreationInput "file" )"
 
                 # user commands
                 getCommandPreviewForFilesFld "file" "$file_name" "$number_of_command" "$numbering_position" "$start_numbering_from"
@@ -60,6 +56,8 @@ EOF
                 ;;
             "2")
                 # FILES CREATION
+                terminalMessage select "$create_new"
+
                 # get core values
                 IFS="," read -r file_name number_of_command numbering_position start_numbering_from <<< "$( getFileFldCreationInput "file" )"
                 # user commands
@@ -75,18 +73,47 @@ EOF
         ;;
     "2")
         # selected message
-        terminalMessage select "Create folders in bulk serially"
-        # get core values
-        IFS="," read -r folder_name number_of_command numbering_position start_numbering_from <<< "$( getFileFldCreationInput "folder" )"
-        # user commands
-        getCommandPreviewForFilesFld "folder" "$folder_name" "$number_of_command" "$numbering_position" "$start_numbering_from"        
-        askToContinue
-        createFolders "$folder_name" "$number_of_command" "$numbering_position" "$start_numbering_from"
+        terminalMessage select "$create_folders"
 
-        [[ $? == 1 ]] && exit 1
-        ;;
-    "3")
-        terminalMessage select "Create folders in bulk serially"
+        optionsListMessage "Select which task to perform" \
+        ""\
+        "$(cat << EOF 
+1. $copy_create_folder
+2. $create_new_folder
+EOF
+        )"
+
+        option=$(optionSelector "[1/2]")
+        case $( echo "$option" | xargs ) in
+            "1")
+               terminalMessage select "$copy_create_folder"
+
+                # get core values
+                IFS="," read -r folder_name number_of_command numbering_position start_numbering_from <<< "$( getFileFldCreationInput "folder" )"
+                output_folder_name="$( modifyFileFldCopyCreationInput "folder" )"
+                # user commands
+                getCommandPreviewForFilesFld "folder" "$folder_name" "$number_of_command" "$numbering_position" "$start_numbering_from"      
+                getModifyDefaultCommandPreview "folder" "$output_folder_name"
+                askToContinue
+                copyNCreateFolders "$folder_name" "$number_of_command" "$numbering_position" "$start_numbering_from" "$output_folder_name"
+                ;;
+            "2")
+                terminalMessage select "$create_new_folder"
+                # get core values
+                IFS="," read -r folder_name number_of_command numbering_position start_numbering_from <<< "$( getFileFldCreationInput "folder" )"
+                # user commands
+                getCommandPreviewForFilesFld "folder" "$folder_name" "$number_of_command" "$numbering_position" "$start_numbering_from"        
+                askToContinue
+                createFolders "$folder_name" "$number_of_command" "$numbering_position" "$start_numbering_from"
+                    
+                [[ $? == 1 ]] && exit 1
+                ;;
+            *)
+                terminalMessage invalid "Please Choose a correct one"
+                exit 1
+                ;;
+
+        esac
         ;;
     *)
         terminalMessage invalid "Please Choose a correct one"

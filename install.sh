@@ -1,6 +1,11 @@
 # !/bin/bash
 
+# Exit immediately if exits with a non-zero status.
+set -e
+
 current_path=$(pwd)
 
+START_SCRIPT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"
+
 # create symbolic link
-sudo ln -s "$current_path/start.sh" /usr/bin/filemanager
+sudo ln -s "$START_SCRIPT_DIR/src/filemanager.sh" /usr/bin/filemanager
