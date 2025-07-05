@@ -31,6 +31,17 @@ This project is not just a utility - it’s a conceptual demonstration of how to
     ```
     *This script will install bats-core locally so that you can write and run unit tests for your Bash scripts.*
 
+## 🔄 Keep in Sync with Core Project
+To synchronize shared project files across all examples, run:
+```bash
+sudo bash files-dist.sh
+```
+This command copies the recommended core files to maintain consistency across various example implementations.
+
+### 📦 Included Examples
+- `example-npm` - Complete
+- `example-zenity `- In progress
+
 ---
 
 ## 🧪 Run Unit Tests
