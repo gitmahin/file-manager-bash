@@ -96,3 +96,17 @@ More:
 1. Output $type name: ${name:-"DEFAULT"}
 EOF
 }
+
+getFolderWithNumberingPosition(){
+    folder_name=$1
+    numbering_position=$2
+    if [[ "$numbering_position" == [lL] ]]; then
+        new_folder="$((i+start_numbering_from))-$folder_name"
+    elif [[ "$numbering_position" == [rR] ]]; then
+        new_folder="$folder_name-$((i+start_numbering_from))"
+    else
+        return 1
+    fi
+
+    echo "$new_folder"
+}

@@ -91,6 +91,8 @@ EOF
                 IFS="," read -r folder_name number_of_command numbering_position start_numbering_from <<< "$( getFileFldCreationInput "folder" )"
                 # user commands
                 getCommandPreviewForFilesFld "folder" "$folder_name" "$number_of_command" "$numbering_position" "$start_numbering_from"      
+                askToContinue
+
                 ;;
             "2")
                 terminalMessage select "$create_new_folder"
@@ -100,7 +102,7 @@ EOF
                 getCommandPreviewForFilesFld "folder" "$folder_name" "$number_of_command" "$numbering_position" "$start_numbering_from"        
                 askToContinue
                 createFolders "$folder_name" "$number_of_command" "$numbering_position" "$start_numbering_from"
-
+                    
                 [[ $? == 1 ]] && exit 1
                 ;;
             *)
