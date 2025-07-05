@@ -6,6 +6,7 @@
 
 source "$START_SCRIPT_DIR/src/lib.sh"
 source "$START_SCRIPT_DIR/src/utils.sh"
+source "$START_SCRIPT_DIR/src/constants.sh"
 
 option=""
 
@@ -14,23 +15,23 @@ cat << EOF
 ====Welcome To The Filemanager=====
 ***********************************
 Select a task to perform.
-1. Create files in bulk serially
-2. Create folders in bulk serially
-3. Zip manager
+1. $create_file
+2. $create_folders
 EOF
 
 read -p "Choose a task - [1/2/3]: " option
 
+# xargs to trim leading/trailing whitespace
 case $(echo "$option" | xargs) in
     "1")
         # selected message
-        terminalMessage select "Create files in bulk serially"
+        terminalMessage select "$create_file"
         # choose options
         optionsListMessage "Select which task to perform" \
         ""\
         "$(cat << EOF 
-1. Copy and Create
-2. Create new
+1. $copy_create
+2. $create_new
 EOF
         )"
 
@@ -38,8 +39,9 @@ EOF
         case $(echo "$option" | xargs) in
             "1")
                 # COPY AND CREATE FILES
-                # get core values 
+                terminalMessage select "$copy_create"
 
+                # get core values 
                 IFS="," read -r file_name number_of_command numbering_position start_numbering_from <<< "$( getFileFldCreationInput "file" )"
                 IFS="," read -r output_file_name <<< "$( modifyFileFldCopyCreationInput "file" )"
 
@@ -53,6 +55,8 @@ EOF
                 ;;
             "2")
                 # FILES CREATION
+                terminalMessage select "$create_new"
+
                 # get core values
                 IFS="," read -r file_name number_of_command numbering_position start_numbering_from <<< "$( getFileFldCreationInput "file" )"
                 # user commands
@@ -68,18 +72,43 @@ EOF
         ;;
     "2")
         # selected message
-        terminalMessage select "Create folders in bulk serially"
-        # get core values
-        IFS="," read -r folder_name number_of_command numbering_position start_numbering_from <<< "$( getFileFldCreationInput "folder" )"
-        # user commands
-        getCommandPreviewForFilesFld "folder" "$folder_name" "$number_of_command" "$numbering_position" "$start_numbering_from"        
-        askToContinue
-        createFolders "$folder_name" "$number_of_command" "$numbering_position" "$start_numbering_from"
+        terminalMessage select "$create_folders"
 
-        [[ $? == 1 ]] && exit 1
-        ;;
-    "3")
-        terminalMessage select "Create folders in bulk serially"
+        optionsListMessage "Select which task to perform" \
+        ""\
+        "$(cat << EOF 
+1. $copy_create_folder
+2. $create_new_folder
+EOF
+        )"
+
+        option=$(optionSelector "[1/2]")
+        case $( echo "$option" | xargs ) in
+            "1")
+               terminalMessage select "$copy_create_folder"
+
+                # get core values
+                IFS="," read -r folder_name number_of_command numbering_position start_numbering_from <<< "$( getFileFldCreationInput "folder" )"
+                # user commands
+                getCommandPreviewForFilesFld "folder" "$folder_name" "$number_of_command" "$numbering_position" "$start_numbering_from"      
+                ;;
+            "2")
+                terminalMessage select "$create_new_folder"
+                # get core values
+                IFS="," read -r folder_name number_of_command numbering_position start_numbering_from <<< "$( getFileFldCreationInput "folder" )"
+                # user commands
+                getCommandPreviewForFilesFld "folder" "$folder_name" "$number_of_command" "$numbering_position" "$start_numbering_from"        
+                askToContinue
+                createFolders "$folder_name" "$number_of_command" "$numbering_position" "$start_numbering_from"
+
+                [[ $? == 1 ]] && exit 1
+                ;;
+            *)
+                terminalMessage invalid "Please Choose a correct one"
+                exit 1
+                ;;
+
+        esac
         ;;
     *)
         terminalMessage invalid "Please Choose a correct one"

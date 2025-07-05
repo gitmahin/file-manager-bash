@@ -71,7 +71,7 @@ createFolders() {
     numbering_position="${3:-r}"
     start_numbering_from="${4:-1}"
 
-    [[ -d "$folder_name" ]] && { echo "Folder name cannot be undefined"; return 1; }
+    [[ -z "$folder_name" ]] && { echo "Folder name cannot be undefined"; return 1; }
 
     for (( i=0; i < "$number_of_command"; i++ )); do
 
@@ -91,4 +91,16 @@ createFolders() {
     done
 
     return 0
+}
+
+copyNCreateFolders() {
+    folder_name=$1
+    number_of_command="${2:-1}"
+    numbering_position="${3:-r}"
+    start_numbering_from="${4:-1}"
+
+    [[ -d "$folder_name" ]] && { echo "Folder name cannot be undefined"; return 1; }
+
+
+
 }

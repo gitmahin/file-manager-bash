@@ -42,3 +42,21 @@ setup() {
   assert_dir_exists "myfolder-2"
   assert_dir_exists "myfolder-3"
 }
+
+# bats test_tags=create-folders-undefined
+@test "Should return error if no folder name is provided" {
+  export folder_name=""
+  export number_of_command=3
+  export numbering_position="r"
+
+  cd "$BATS_TMPDIR" || exit 1
+
+  run bash -c 'source $TEMP_LIBSH_PATH; createFolders "$folder_name" "$number_of_command" "$numbering_position"'
+  echo "OUTPUT: <$output>"
+
+  # cause createFolders with empty file name is returning 1. 
+  # so we have to use assert_failure instead of assert_success cause assert_success find 0
+  # so if we pass 1 to assert_success our test will fail.
+  # but assert_failure will success as it dont take 0
+  assert_failure
+}
