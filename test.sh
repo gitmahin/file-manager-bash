@@ -13,7 +13,7 @@ if [[ ! -z "$input_test_files" ]]; then
 fi
 
 if [[ ! -z "$filter_tests" ]]; then 
-    bats $filter_tests src/tests/test.bats
+    bats $filter_tests src/tests
 else
-    bats src/tests/test.bats
+    bats src/tests
 fi
