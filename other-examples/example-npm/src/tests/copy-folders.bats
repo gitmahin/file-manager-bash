@@ -18,7 +18,7 @@ setup(){
 @test "Should copy folders 2 to 6 with default settings" {
     run bash -c 'source $TEMP_LIBSH_PATH; copyNCreateFolders "$folder_name" "$number_of_command"'
     echo "OUTPUT: <$output>"
-
+    
     assert_success
 
     assert_dir_exists "my-folder-2" 

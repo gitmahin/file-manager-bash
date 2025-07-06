@@ -32,13 +32,12 @@ if [[ -d "$examples/$example_zenity" ]]; then
    
     cp "src/lib.sh" "$examples/$example_zenity/src/"
 
-    cp -r "src/tests" "$examples/$example_zenity/src/"
+    cp -r "src/tests/"*.bats "$examples/$example_zenity/src/tests"
+    cp "src/tests/helper.bash" "$examples/$example_zenity/src/tests/"
     cp "test.sh" "$examples/$example_zenity/"
 
     cp "install.dev.sh" "$examples/$example_zenity/"
     cp "start.dev.sh" "$examples/$example_zenity/"
-
-    cp ".gitmodules" "$examples/$example_zenity/"
 
     recommended_files=("utils.sh" "constants.sh")
 
