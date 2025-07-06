@@ -7,3 +7,12 @@
 [submodule "src/tests/test_helper/bats-file"]
 	path = src/tests/test_helper/bats-file
 	url = https://github.com/bats-core/bats-file.git
+[submodule "other-examples/example-zenity/src/tests/test_helper/bats-file"]
+	path = other-examples/example-zenity/src/tests/test_helper/bats-file
+	url = https://github.com/bats-core/bats-file.git
+[submodule "other-examples/example-zenity/src/tests/test_helper/bats-support"]
+	path = other-examples/example-zenity/src/tests/test_helper/bats-support
+	url = https://github.com/bats-core/bats-support.git
+[submodule "other-examples/example-zenity/src/tests/test_helper/bats-assert"]
+	path = other-examples/example-zenity/src/tests/test_helper/bats-assert
+	url = https://github.com/bats-core/bats-assert.git
