@@ -34,7 +34,7 @@ This project is not just a utility - it’s a conceptual demonstration of how to
 
 > [!WARNING]
 > If you did not clone the project using --recurse-submodules, you’ll need to initialize and update the submodules manually. Follow the instructions below.
-### 3. Restore the Submodules
+### Restore the Submodules
     Make sure you're in the root directory of the project, then run the following commands to initialize and update all Git submodules:
     run commmands on the root directory
     ```bash
