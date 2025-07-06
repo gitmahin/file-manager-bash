@@ -20,7 +20,7 @@ This project is not just a utility - it’s a conceptual demonstration of how to
 ## 🚀 Run in Development Mode
 ### 1. Clone the Repository
     ```bash
-    git clone https://github.com/gitmahin/file-manager-bash.git
+    git clone --recurse-submodules https://github.com/gitmahin/file-manager-bash.git
     cd file-manager-bash
     ```
 
@@ -31,14 +31,27 @@ This project is not just a utility - it’s a conceptual demonstration of how to
     ```
     *This script will install bats-core locally so that you can write and run unit tests for your Bash scripts.*
 
-## 🔄 Keep in Sync with Core Project
+
+> [!WARNING]
+> If you did not clone the project using --recurse-submodules, you’ll need to initialize and update the submodules manually. Follow the instructions below.
+### 3. Restore the Submodules
+    Make sure you're in the root directory of the project, then run the following commands to initialize and update all Git submodules:
+    run commmands on the root directory
+    ```bash
+    git submodule init
+    git submodule update
+    ```
+    This will download and set up any required submodules listed in the `.gitmodules` file.
+
+
+### 🔄 Keep in Sync with Core Project
 To synchronize shared project files across all examples, run:
 ```bash
 sudo bash files-dist.sh
 ```
 This command copies the recommended core files to maintain consistency across various example implementations.
 
-### 📦 Included Examples
+#### 📦 Included Examples
 - `example-npm` - Complete
 - `example-zenity `- In progress
 
