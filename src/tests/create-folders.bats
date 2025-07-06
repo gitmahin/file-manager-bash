@@ -12,6 +12,10 @@ setup() {
   export number_of_command=3
 }
 
+teardown() {
+  tear_down_file    
+}
+
 # bats test_tags=create-folders-leftn
 @test "Should create folders 1 to 3 with left numbering position" {
 

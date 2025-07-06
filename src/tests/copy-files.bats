@@ -14,6 +14,11 @@ setup() {
     export output_file_name="my-file.txt"
 }
 
+# Will run after all tests have finished
+teardown() {
+  tear_down_file    
+}
+
 # bats test_tags=copy-files-default
 @test "Should copy files 2 to 4 without custom output file-name and with default settings" {
 

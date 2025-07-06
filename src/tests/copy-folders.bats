@@ -14,6 +14,10 @@ setup(){
     mkdir "$folder_name"
 }
 
+teardown() {
+  tear_down_file    
+}
+
 # bats test_tags=copy-folders-default
 @test "Should copy folders 2 to 6 with default settings" {
     run bash -c 'source $TEMP_LIBSH_PATH; copyNCreateFolders "$folder_name" "$number_of_command"'

@@ -12,6 +12,10 @@ setup(){
   export number_of_command=5
 }
 
+teardown() {
+  tear_down_file    
+}
+
 # bats test_tags=create-files-default
 @test "Should create files 1 to 5 with default settings" {
   run bash -c 'source $TEMP_LIBSH_PATH; createFiles "$file_name" "$number_of_command"'

@@ -6,7 +6,6 @@ load_lib() {
 }
 
 setup_testing_ground() {
-    export BATS_TMPDIR=""
     # get the containing directory of this file
     # use $BATS_TEST_FILENAME instead of ${BASH_SOURCE[0]} or $0,
     # as those will point to the bats executable's location or the preprocessed file respectively
@@ -16,14 +15,9 @@ setup_testing_ground() {
 
     # loading bats assertions
     load_lib 'bats-support' || bats_load_safe "${DIR}/../../node_modules/bats-support/load" # this is for npm
-   
-    # Setting temporary directory to test file and folder creation
-    BATS_TMPDIR=$(mktemp -d -t bats-test-XXXXXX)
     # exporting for available in whole tests
     export TEMP_LIBSH_PATH="${BATS_TEST_DIRNAME}/../lib.sh"
-
-    # Entering the temporary bats folder
-    cd "$BATS_TMPDIR" || exit 1
+    
 }
 
 setup_common_assertion(){
@@ -32,4 +26,13 @@ setup_common_assertion(){
 
 setup_file_assertion() {
     load_lib 'bats-file' ||  bats_load_safe "${DIR}/../../node_modules/bats-file/load" # this is for npm
+    # Setting temporary directory to test file and folder creation
+    TEST_TEMP_DIR="$(temp_make --prefix 'filemanager-')"
+    # Entering the temporary bats folder
+    cd "$TEST_TEMP_DIR" || exit 1
+}
+
+tear_down_file() {
+    # remove temporary directory
+    temp_del "$TEST_TEMP_DIR"
 }
