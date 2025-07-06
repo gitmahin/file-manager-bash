@@ -39,6 +39,6 @@ setup_file_assertion() {
 tear_down_file() {
     # remove temporary directory
     # If you dont delete temp directory for any specific test just initialize 
-    # BATSLIB_TEMP_PRESERVE=1 in setup()
+    # BATSLIB_TEMP_PRESERVE=1 in setup(). e.g. show copy-files.bats
     temp_del "$TEST_TEMP_DIR"
 }
