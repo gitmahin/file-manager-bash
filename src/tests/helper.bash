@@ -30,6 +30,7 @@ setup_file_assertion() {
     # Setting temporary directory to test file and folder creation
     # the directory name is of the following form.
     # <prefix><test-filename>-<test-number>-<random-string>
+    # You can see created temp directory on cd /tmp/ prefix -> filemanager. 
     TEST_TEMP_DIR="$(temp_make --prefix 'filemanager-')"
     # Entering the temporary bats folder
     cd "$TEST_TEMP_DIR" || exit 1
@@ -37,5 +38,7 @@ setup_file_assertion() {
 
 tear_down_file() {
     # remove temporary directory
+    # If you dont delete temp directory for any specific test just initialize 
+    # BATSLIB_TEMP_PRESERVE=1 in setup()
     temp_del "$TEST_TEMP_DIR"
 }

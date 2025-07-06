@@ -4,6 +4,10 @@
 bats_load_safe "helper.bash"
 
 setup() {
+    # Example to show you it works: Preserve the temporary directory for debugging the "copy-files" test.
+    # This helps you inspect the temporary files. Check the tmp directory after test runs.
+    BATSLIB_TEMP_PRESERVE=1
+    
     setup_testing_ground
     setup_common_assertion
     setup_file_assertion
