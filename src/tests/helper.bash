@@ -26,7 +26,10 @@ setup_common_assertion(){
 
 setup_file_assertion() {
     load_lib 'bats-file' ||  bats_load_safe "${DIR}/../../node_modules/bats-file/load" # this is for npm
+    
     # Setting temporary directory to test file and folder creation
+    # the directory name is of the following form.
+    # <prefix><test-filename>-<test-number>-<random-string>
     TEST_TEMP_DIR="$(temp_make --prefix 'filemanager-')"
     # Entering the temporary bats folder
     cd "$TEST_TEMP_DIR" || exit 1
